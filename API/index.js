@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const colors = require('colors')
 const morgan = require('morgan')
+const routes = require('./routes')
 const app = express();
 
 app.set('port', process.env.PORT || 4000);
@@ -14,6 +15,8 @@ mongoose.connect('mongodb://localhost/veterinaria', {
     useUnifiedTopology: true,
     useFindAndModify: false,
 });
+
+app.use('/', routes());
 
 app.use(morgan('dev'));
 
