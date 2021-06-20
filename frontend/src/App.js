@@ -5,6 +5,8 @@ import Pacientes from './components/Pacientes'
 import NuevaCita from './components/NuevaCita'
 import Cita from './components/Cita'
 function App() {
+
+  console.log()
   return (
     <div className="App">
       <Router>
