@@ -11,7 +11,7 @@ app.set('appName',"Consulta de pacientes".toUpperCase());
 
 // conectar a base de datos
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/veterinaria', {
+mongoose.connect('mongodb://localhost/veterinaria', { //db
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
