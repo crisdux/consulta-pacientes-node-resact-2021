@@ -11,19 +11,24 @@ function App() {
 
   //state
   const [citas, setCitas] = useState([]);
+  const [consultar, setConsultar] = useState(true);
 
   useEffect(() => {
-    const consultarAPI = () => {
-      // http://localhost:4000/pacientes
-      clienteAxios.get('/pacientes')
-        .then(respuesta => {
-          setCitas(respuesta.data)
-        })
-        .catch(error =>  console.log(error))
-        
+    if(consultar){
+      const consultarAPI = () => {
+        // http://localhost:4000/pacientes
+        clienteAxios.get('/pacientes')
+          .then(respuesta => {
+            setCitas(respuesta.data)
+            setConsultar(false)
+          })
+          .catch(error =>  console.log(error))
+          
+      }
+      consultarAPI();
     }
-    consultarAPI();
-  }, []);
+    
+  }, [consultar]);
 
   return (
     <div className="App">
@@ -31,17 +36,22 @@ function App() {
         <Switch>
           <Route 
             exact path="/"
-            component={() => <Pacientes citas = {citas} />} //con esta sintaxis si puedo pasar props a los componentes
+            component={() => <Pacientes citas = {citas}  />} //con esta sintaxis si puedo pasar props a los componentes
           />
 
           <Route 
             exact path="/nueva"
-            component={NuevaCita} //con esta sintaxis no puedo pasar props a los componentes
+            component={() => <NuevaCita setConsultar={setConsultar}/>} //con esta sintaxis no puedo pasar props a los componentes
           />
 
           <Route 
-            exact path="/nueva/:id"
-            component={Cita}
+            exact path="/cita/:id"
+            render = {(props) => {
+              const cita = citas.filter(cita => cita._id === props.match.params.id)
+              return(
+                <Cita cita = {cita[0]} setConsultar={setConsultar} />
+              )
+            }}
           />
         </Switch>
       </Router>
